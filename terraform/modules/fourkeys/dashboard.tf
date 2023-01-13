@@ -71,7 +71,7 @@ resource "null_resource" "CopyCommitAndPush" {
   provisioner "local-exec" {
     command = <<EOT
 
-      cp dashboard/fourkeys_dashboard.json ${var.dst_github_repo}/${var.dst_path}
+      cp ${path.module}/files/fourkeys_dashboard.json ${var.dst_github_repo}/${var.dst_path}
       cd ${var.dst_github_repo}
       git add ${var.dst_path}/*
       git commit -m "Added New Dashboard File"
