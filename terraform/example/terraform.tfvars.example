@@ -1,0 +1,4 @@
+project_id = "gcp-dorametricsnonp-nprd-84349"
+region = "us-east1-b"
+bigquery_region = "US"
+parsers = ["github"]
