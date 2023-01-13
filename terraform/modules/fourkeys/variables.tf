@@ -83,3 +83,42 @@ variable "pagerduty_parser_url" {
   description = "The URL for the Pager Duty parser container image. A default value pointing to the project's container registry is defined in under local values of this module."
   default     = ""
 }
+
+variable "dst_github_org" {
+  description = "GitHub repository token to access destination repository"
+  type        = string
+  default     = "janselva-org"
+}
+
+variable "src_github_repo" {
+  description = "GitHub repository token to access source repository"
+  type        = string
+  default     = "test"
+}
+
+variable "dst_github_repo" {
+  description = "GitHub repository token to access destination repository"
+  type        = string
+  default     = "dst_test"
+}
+variable "dst_github_token" {
+  description = "GitHub access token used to access destination repository"
+  type        = string
+  default     = "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"
+}
+variable "dst_path" {
+  description = "GitHub repository of a release to query"
+  type        = string
+  default     = "dashboard"
+}
+variable "src_branch_name" {
+  description = "GitHub repository of a release to query"
+  type        = string
+  default     = "master"
+}
+
+variable "dst_branch_name" {
+  description = "GitHub repository of a release to query"
+  type        = string
+  default     = "d4"
+}
