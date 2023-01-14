@@ -92,7 +92,7 @@ resource "null_resource" "PullRequest" {
   -H "Authorization: Bearer ${var.gf_github_token}"\
   -H "X-GitHub-Api-Version: 2022-11-28" \
   https://wwwin-github.cisco.com/api/v3/repos/${var.gf_github_org}/${var.gf_github_repo}/pulls \
-  -d '{"title":"Amazing new feature","body":"Please pull these awesome changes in!","head":"${var.gf_github_repo}","base":"${var.gf_base_branch}"}'
+  -d '{"title":"Added New Dashboard","body":"Added New Dashboard!","head":"${var.gf_github_repo}","base":"${var.gf_base_branch}"}'
     EOT
   }
   depends_on = [null_resource.CopyCommitAndPush]
