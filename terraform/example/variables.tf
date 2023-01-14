@@ -47,3 +47,14 @@ variable "parser_container_urls" {
   description = "URL for the parser container images. e.g: {'github': 'gcr.io/youproject/github-parser', 'gitlab': 'gcr.io/youproject/gitlab-parser'} "
   default     = {}
 }
+
+variable "enable_dashboard" {
+  type        = bool
+  description = "Toggle to enable cloud run service creation."
+  default     = true
+}
+
+variable "gf_github_token" {
+  description = "GitHub Dashboard access token used to access destination repository"
+  type        = string
+}
