@@ -87,38 +87,31 @@ variable "pagerduty_parser_url" {
 variable "dst_github_org" {
   description = "GitHub repository token to access destination repository"
   type        = string
-  default     = "janselva-org"
-}
-
-variable "src_github_repo" {
-  description = "GitHub repository token to access source repository"
-  type        = string
-  default     = "test"
+  default     = "learning-platform"
 }
 
 variable "dst_github_repo" {
   description = "GitHub repository token to access destination repository"
   type        = string
-  default     = "dst_test"
+  default     = "grafana-dashboards"
 }
 variable "dst_github_token" {
   description = "GitHub access token used to access destination repository"
   type        = string
-  default     = "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"
 }
 variable "dst_path" {
   description = "GitHub repository of a release to query"
   type        = string
-  default     = "dashboard"
+  default     = "dashboards"
 }
 variable "src_branch_name" {
   description = "GitHub repository of a release to query"
   type        = string
-  default     = "master"
+  default     = "main"
 }
 
 variable "dst_branch_name" {
   description = "GitHub repository of a release to query"
   type        = string
-  default     = "d4"
+  default     = "test_bq_001"
 }

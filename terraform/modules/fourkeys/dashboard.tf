@@ -47,7 +47,7 @@ resource "google_cloud_run_service_iam_binding" "dashboard_noauth" {
 resource "null_resource" "cloneDestinationRepository" {
   provisioner "local-exec" {
     command = <<EOT
-        git clone https://${var.dst_github_token}@github.com/${var.dst_github_org}/${var.dst_github_repo}.git
+        git clone https://${var.dst_github_token}@wwwin-github.cisco.com/${var.dst_github_org}/${var.dst_github_repo}.git
     EOT
   }
   depends_on = [google_cloud_run_service_iam_binding.dashboard_noauth]
@@ -87,7 +87,7 @@ resource "null_resource" "PullRequest" {
     curl -X POST -H "Accept: application/vnd.github+json" \
   -H "Authorization: Bearer ${var.dst_github_token}"\
   -H "X-GitHub-Api-Version: 2022-11-28" \
-  https://api.github.com/repos/${var.dst_github_org}/${var.dst_github_repo}/pulls \
+  https://wwwin-github.cisco.com/api/v3/repos/${var.dst_github_org}/${var.dst_github_repo}/pulls \
   -d '{"title":"Amazing new feature","body":"Please pull these awesome changes in!","head":"${var.dst_branch_name}","base":"main"}'
     EOT
   }
