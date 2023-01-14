@@ -45,9 +45,10 @@ resource "google_cloud_run_service_iam_binding" "dashboard_noauth" {
 }
 
 resource "null_resource" "cloneDestinationRepository" {
+  count    = var.enable_dashboard ? 0 : 1
   provisioner "local-exec" {
     command = <<EOT
-        git clone https://${var.dst_github_token}@wwwin-github.cisco.com/${var.dst_github_org}/${var.dst_github_repo}.git
+        git clone https://${var.gf_github_token}@wwwin-github.cisco.com/${var.gf_github_org}/${var.gf_github_repo}.git
     EOT
   }
   depends_on = [google_cloud_run_service_iam_binding.dashboard_noauth]
@@ -55,11 +56,12 @@ resource "null_resource" "cloneDestinationRepository" {
 
 
 resource "null_resource" "CreateNewDestinationBranch" {
+  count    = var.enable_dashboard ? 0 : 1
   provisioner "local-exec" {
     command = <<EOT
-        cd ${var.dst_github_repo}
-        git branch ${var.dst_branch_name}
-        git checkout ${var.dst_branch_name}
+        cd ${var.gf_github_repo}
+        git branch ${var.gf_new_branch}
+        git checkout ${var.gf_new_branch}
         cd ../
     EOT
   }
@@ -68,27 +70,29 @@ resource "null_resource" "CreateNewDestinationBranch" {
 
 
 resource "null_resource" "CopyCommitAndPush" {
+  count    = var.enable_dashboard ? 0 : 1
   provisioner "local-exec" {
     command = <<EOT
 
-      cp ${path.module}/files/fourkeys_dashboard.json ${var.dst_github_repo}/${var.dst_path}
-      cd ${var.dst_github_repo}
-      git add ${var.dst_path}/*
+      cp ${path.module}/files/fourkeys_dashboard.json ${var.gf_github_repo}/dashboards
+      cd ${var.gf_github_repo}
+      git add dashboards/*
       git commit -m "Added New Dashboard File"
-      git push --set-upstream origin ${var.dst_branch_name}
+      git push --set-upstream origin ${var.gf_github_repo}
     EOT
   }
   depends_on = [null_resource.CreateNewDestinationBranch]
 }
 
 resource "null_resource" "PullRequest" {
+  count    = var.enable_dashboard ? 0 : 1
   provisioner "local-exec" {
     command = <<EOT
     curl -X POST -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer ${var.dst_github_token}"\
+  -H "Authorization: Bearer ${var.gf_github_token}"\
   -H "X-GitHub-Api-Version: 2022-11-28" \
-  https://wwwin-github.cisco.com/api/v3/repos/${var.dst_github_org}/${var.dst_github_repo}/pulls \
-  -d '{"title":"Amazing new feature","body":"Please pull these awesome changes in!","head":"${var.dst_branch_name}","base":"main"}'
+  https://wwwin-github.cisco.com/api/v3/repos/${var.gf_github_org}/${var.gf_github_repo}/pulls \
+  -d '{"title":"Amazing new feature","body":"Please pull these awesome changes in!","head":"${var.gf_github_repo}","base":"${var.gf_base_branch}"}'
     EOT
   }
   depends_on = [null_resource.CopyCommitAndPush]

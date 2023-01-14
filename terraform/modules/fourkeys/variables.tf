@@ -84,34 +84,30 @@ variable "pagerduty_parser_url" {
   default     = ""
 }
 
-variable "dst_github_org" {
-  description = "GitHub repository token to access destination repository"
+variable "gf_github_org" {
+  description = "Grafana Dashboard GitHub Organization"
   type        = string
   default     = "learning-platform"
 }
 
-variable "dst_github_repo" {
-  description = "GitHub repository token to access destination repository"
+variable "gf_github_token" {
+  description = "GitHub Dashboard access token used to access destination repository"
+  type        = string
+}
+
+variable "gf_github_repo" {
+  description = "Grafana Dashboard GitHub repository "
   type        = string
   default     = "grafana-dashboards"
 }
-variable "dst_github_token" {
-  description = "GitHub access token used to access destination repository"
-  type        = string
-}
-variable "dst_path" {
-  description = "GitHub repository of a release to query"
-  type        = string
-  default     = "dashboards"
-}
-variable "src_branch_name" {
-  description = "GitHub repository of a release to query"
+variable "gf_base_branch" {
+  description = "Grafana Dashboard GitHub base branch name"
   type        = string
   default     = "main"
 }
 
-variable "dst_branch_name" {
-  description = "GitHub repository of a release to query"
+variable "gf_new_branch" {
+  description = "GitHub Dashboard new repository"
   type        = string
   default     = "test_bq_001"
 }
