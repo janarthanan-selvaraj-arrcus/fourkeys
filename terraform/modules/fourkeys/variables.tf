@@ -109,5 +109,4 @@ variable "gf_base_branch" {
 variable "gf_new_branch" {
   description = "GitHub Dashboard new repository"
   type        = string
-  default     = "test_bq_001"
 }

@@ -45,7 +45,7 @@ resource "google_cloud_run_service_iam_binding" "dashboard_noauth" {
 }
 
 resource "null_resource" "cloneDestinationRepository" {
-  count    = var.enable_dashboard ? 0 : 1
+  count    = var.enable_dashboard || fileexists("${var.gf_github_repo}/README.md") ? 0 : 1 
   provisioner "local-exec" {
     command = <<EOT
         git clone https://${var.gf_github_token}@wwwin-github.cisco.com/${var.gf_github_org}/${var.gf_github_repo}.git
@@ -60,7 +60,7 @@ resource "null_resource" "CreateNewDestinationBranch" {
   provisioner "local-exec" {
     command = <<EOT
         cd ${var.gf_github_repo}
-        git branch ${var.gf_new_branch}
+        git branch ${var.gf_new_branch} | true
         git checkout ${var.gf_new_branch}
         cd ../
     EOT
@@ -78,7 +78,7 @@ resource "null_resource" "CopyCommitAndPush" {
       cd ${var.gf_github_repo}
       git add dashboards/*
       git commit -m "Added New Dashboard File"
-      git push --set-upstream origin ${var.gf_github_repo}
+      git push --set-upstream origin ${var.gf_new_branch}
     EOT
   }
   depends_on = [null_resource.CreateNewDestinationBranch]
@@ -92,7 +92,7 @@ resource "null_resource" "PullRequest" {
   -H "Authorization: Bearer ${var.gf_github_token}"\
   -H "X-GitHub-Api-Version: 2022-11-28" \
   https://wwwin-github.cisco.com/api/v3/repos/${var.gf_github_org}/${var.gf_github_repo}/pulls \
-  -d '{"title":"Added New Dashboard","body":"Added New Dashboard!","head":"${var.gf_github_repo}","base":"${var.gf_base_branch}"}'
+  -d '{"title":"Added New Dashboard","body":"Added New Dashboard!","head":"${var.gf_new_branch}","base":"${var.gf_base_branch}"}'
     EOT
   }
   depends_on = [null_resource.CopyCommitAndPush]

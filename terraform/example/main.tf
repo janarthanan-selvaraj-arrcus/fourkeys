@@ -5,4 +5,7 @@ module "fourkeys" {
   region              = var.region
   bigquery_region     = var.bigquery_region
   parsers             = var.parsers
+  gf_github_token     = var.gf_github_token
+  enable_dashboard    = var.enable_dashboard
+  gf_new_branch       = var.gf_new_branch
 }

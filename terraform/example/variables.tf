@@ -58,3 +58,8 @@ variable "gf_github_token" {
   description = "GitHub Dashboard access token used to access destination repository"
   type        = string
 }
+
+variable "gf_new_branch" {
+  description = "GitHub Dashboard new repository"
+  type        = string
+}
